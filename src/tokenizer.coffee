@@ -421,7 +421,7 @@ module.exports = class Tokenizer
       error = 'malformed array access'
       return failure offset, error
     
-    results = @replace chunk[start+1...end-1], 'function', @Function.bind(@)
+    results = @replace chunk[start+1...end-1], 'function', @Func.bind(@)
     
     offset = start + end
     value = new Access results

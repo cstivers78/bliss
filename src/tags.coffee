@@ -53,16 +53,6 @@ class DoWhile extends Tag
   constructor: (@block,@test) ->
   parts: -> ['do', @block, 'while', @test, ';']
 
-class AnonFunction extends Tag
-  name: 'AnonFunction'
-  constructor: (@args,@block) ->
-  parts: -> ['function', @args, @block]
-
-class NamedFunction extends Tag
-  name: 'NamedFunction'
-  constructor: (@identifier,@args,@block) ->
-  parts: -> ['function ', @identifier, @args, @block]
-
 class Func extends Tag
   name: 'Func'
   constructor: (@identifier,@args,@block) ->
