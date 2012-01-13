@@ -56,11 +56,19 @@ module.exports = class Bliss
 
 
   compileFile: (filename,options) ->
-    source = fs.readFileSync filename, 'utf8'
     options = defaults options, @options, {
       filename: filename,
       ext: if (p=filename.indexOf('.')) >= 0 then filename[p..] else ''
     }
+    filepath = filename
+    exists = path.existsSync filepath
+    if not exists
+      filepath = filename + options.ext
+      exists = path.existsSync filepath
+      if not exists
+        throw 'ENOENT'
+
+    source = fs.readFileSync filepath, 'utf8'
     template = @compile source, options
 
 

@@ -8,7 +8,7 @@ module.exports = class Writer
     @buffer.push code
 
   text: (text) ->
-    text = text.replace(/\n/g,'\\n')
+    text = text.replace(/\n/g,'\\n').replace(/"/g,'\\"').replace(/'/g,"\\'")
     @buffer.push 'write("'
     @buffer.push text
     @buffer.push '");\n'
