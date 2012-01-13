@@ -1,0 +1,28 @@
+{
+  "author": "Chris Stivers <chris@stivers.us>",
+  "name": "bliss",
+  "description": "Embedded JavaScript templates based on .NET Razor and Play! Framework templates.",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cstivers78/bliss"
+  },
+  "main": "lib/bliss.js",
+  "bin": {
+    "bliss-compile": "./bin/bliss-compile",
+    "bliss-render": "./bin/bliss-render"
+  },
+  "scripts": {
+    "clean": "rm -rf lib",
+    "compile": "coffee -b -c -o lib src",
+    "build": "npm run-script clean && npm run-script compile"
+  },
+  "engines": {
+    "node": ">= 0.5.0 < 0.7.0"
+  },
+  "dependencies": {
+    "html-minifier": ">=0.4.5",
+    "uglify-js": ">=1.2.3"
+  },
+  "license": "MIT"
+}
