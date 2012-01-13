@@ -2,7 +2,7 @@
   "author": "Chris Stivers <chris@stivers.us>",
   "name": "bliss",
   "description": "Embedded JavaScript templates based on .NET Razor and Play! Framework templates.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/cstivers78/bliss"
