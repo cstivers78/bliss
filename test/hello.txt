@@ -1,3 +1,7 @@
 hello world!
 
+@*
+ * Comment Block!
+ *@
+
 @render('compose/header')

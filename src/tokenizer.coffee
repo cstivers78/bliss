@@ -42,6 +42,7 @@ IDENTIFIER = /^[$A-Za-z_\x7f-\uffff][$\w\x7f-\uffff]*/
 MEMBER = /^\s*\./
 ACCESS = /^\s*\[/
 INVOKE = /^\s*\(/
+COMMENT = /^\*/
 
 
 module.exports = class Tokenizer
@@ -91,6 +92,7 @@ module.exports = class Tokenizer
     chunk = chunk[start..]
     
     result =  
+      @Comment(chunk) or
       @Parameters(chunk) or
       @Escape(chunk) or
       @If(chunk) or
@@ -111,6 +113,22 @@ module.exports = class Tokenizer
     
     return result
   
+  Comment: (chunk) ->
+      return NoMatch unless match = COMMENT.exec chunk
+
+      start = match[0].length
+      match = chunk[start..].match /\*\@\s*/
+
+      if not match?
+        offset = start
+        error = 'malformed comment'
+        return failure offset, error
+      
+      offset = start + match.index + match[0].length
+      value = new Content('')
+      return success offset, value
+  
+
   Parameters: (chunk) ->
     return NoMatch unless match = PARAMETERS.exec chunk
 

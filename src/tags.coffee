@@ -95,8 +95,6 @@ module.exports = {
   For
   While
   DoWhile
-  AnonFunction
-  NamedFunction
   Func
   Parameters
   Value
