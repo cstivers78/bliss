@@ -2,15 +2,17 @@
 const _ = require('underscore');
 const minifier = require('html-minifier');
 const util = require('util');
-const bliss = require('..');
+const Bliss = require('..');
 
 const args = _.map(process.argv,_.identity);
 const nodeExec = args.shift();
 const nodeScript = args.shift();
 
 try {
-  var template = output = undefined, compileStart = compileStop = renderStart = renderStop = 0;
+  var bliss = template = output = undefined, compileStart = compileStop = renderStart = renderStop = 0;
   
+  bliss = new Bliss();
+
   compileStart = Date.now();
   template = bliss.compileFile(args.shift());
   compileStop = Date.now();

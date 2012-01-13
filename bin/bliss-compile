@@ -3,13 +3,15 @@ const _ = require('underscore');
 const uglify = require('uglify-js');
 const minifier = require('html-minifier');
 const util = require('util');
-const bliss = require('..');
+const Bliss = require('..');
 
 const args = _.map(process.argv,_.identity);
 const nodeExec = args.shift();
 const nodeScript = args.shift();
 
-var template = ast = code = undefined, compileStart = compileStop = 0;
+var bliss = template = ast = code = undefined, compileStart = compileStop = 0;
+
+bliss = new Bliss();
 
 compileStart = Date.now();
 template = bliss.compileFile(args.shift(),{
