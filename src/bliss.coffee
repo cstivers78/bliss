@@ -32,15 +32,7 @@ module.exports = class Bliss
     context.render = (filename,args...) ->
       dirname = path.dirname options.filename
       filepath = path.resolve dirname, filename
-      
-      exists = path.existsSync filepath
-      if not exists
-        filepath = filepath + options.ext
-        exists = path.existsSync filepath
-      if exists
-        self.render filepath, args...
-      else
-        throw 'ENOENT'
+      self.render filepath, args...
 
     writer = new Writer()
     writer.write tokenizer.tokenize source
