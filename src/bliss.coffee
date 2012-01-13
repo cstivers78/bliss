@@ -8,8 +8,10 @@ tokenizer = new Tokenizer()
 module.exports = class Bliss
 
   constructor: (@options) ->
+    @cache = {}
     @options = defaults @options, {
       ext: '.js.html'
+      cacheEnabled: true
     }
 
   defaults = (objects...) ->
@@ -56,21 +58,48 @@ module.exports = class Bliss
 
 
   compileFile: (filename,options) ->
+    self = @
     options = defaults options, @options, {
       filename: filename,
       ext: if (p=filename.indexOf('.')) >= 0 then filename[p..] else ''
     }
+
     filepath = filename
-    exists = path.existsSync filepath
-    if not exists
-      filepath = filename + options.ext
-      exists = path.existsSync filepath
-      if not exists
-        throw 'ENOENT'
-
-    source = fs.readFileSync filepath, 'utf8'
-    template = @compile source, options
-
+    stat = undefined
+    try
+      stat = fs.statSync filepath
+    catch thrown
+      try
+        filepath = filepath + options.ext
+        stat = fs.statSync filepath
+      catch thrown
+        throw thrown
+    
+    _compileFile = ->
+      source = fs.readFileSync filepath, 'utf8'
+      template = self.compile source, options
+    
+    if options.cacheEnabled 
+      if @cache[filepath]?
+        entry = @cache[filepath]
+        if stat.mtime > entry.mtime
+          entry.filename = filepath
+          entry.mtime = Date.now()
+          entry.template = _compileFile()
+          @cache[filepath] = entry
+          entry.template
+        else
+          entry.template
+      else
+        entry = {}
+        entry.filename = filepath
+        entry.mtime = Date.now()
+        entry.template = _compileFile()
+        @cache[filepath] = entry
+        entry.template
+    else
+      _compileFile()
+  
 
   render: (filename,args...) ->
     template = @compileFile filename
