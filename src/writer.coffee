@@ -42,7 +42,7 @@ module.exports = class Writer
         @value tag
         @code ';'
         @code 'if(__tmp !== undefined || __tmp !== null){'
-        @code 'write(__tmp);'
+        @code 'Array.isArray(__tmp) ? write(__tmp.join("")) : write(__tmp);'
         @code '}'
       when 'Parameters'
         @parameters = tag.parameters
