@@ -57,7 +57,11 @@ class Writer
         @parameters = tag.parameters
       when 'Func' 
         @code 'function'
-        @tag tag.args
+        # @tag tag.args
+        @code '('
+        if tag.args?
+          @code tag.args.content
+        @code ')'
         @code '{'
         @code 'var __out=[],write=__out.push.bind(__out),__tmp=0;'
         @tag tag.block
