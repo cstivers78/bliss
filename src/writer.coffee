@@ -37,9 +37,9 @@ class Writer
               @text c
         @code '}'
       when 'Group'
-        if parent? and parent.name in ['Block','Func','If','For','While','DoWhile','Invoke','Parameters']
+        if parent? and parent.name in ['Block','Func','If','For','While','DoWhile']
           if tag.parts?
-            @parts tag.parts()
+            @parts tag.parts(), tag
         else
           @code '__tmp='
           @code '('
@@ -65,11 +65,11 @@ class Writer
         # @code '('
         # if tag.args?
           # @code tag.args.content
-        @tag tag.args
+        @tag tag.args, tag
         # @code ')'
         @code '{'
         @code 'var __out=[],write=__out.push.bind(__out),__tmp=0;'
-        @tag tag.block
+        @tag tag.block, tag
         @code 'return __out.join(\'\');'
         @code '}'
       else
