@@ -21,10 +21,10 @@ class Writer
         else
           @text element
 
-  tag: (tag) ->
+  tag: (tag,parent) ->
     switch tag.name
       when 'Anchor'
-        @tag tag.content
+        @tag tag.content, tag
       when 'Content'
         @text tag.content
       when 'Block'
@@ -32,19 +32,23 @@ class Writer
         if tag.content? and Array.isArray tag.content 
           for c in tag.content
             if c?.tag?
-              @tag c
+              @tag c, tag
             else if c?
               @text c
         @code '}'
       when 'Group'
-        @code '__tmp='
-        @code '('
-        if tag.content?
-          @code tag.content
-        @code ');'
-        @code 'if(__tmp !== undefined || __tmp !== null){'
-        @code 'Array.isArray(__tmp) ? write(__tmp.join("")) : write(__tmp);'
-        @code '}'
+        if parent? and parent.name in ['Block','Func','If','For','While','DoWhile','Invoke','Parameters']
+          if tag.parts?
+            @parts tag.parts()
+        else
+          @code '__tmp='
+          @code '('
+          if tag.content?
+            @code tag.content
+          @code ');'
+          @code 'if(__tmp !== undefined || __tmp !== null){'
+          @code 'Array.isArray(__tmp) ? write(__tmp.join("")) : write(__tmp);'
+          @code '}'
       when 'Value'
         index = @values
         @code '__tmp='
@@ -58,10 +62,11 @@ class Writer
       when 'Func' 
         @code 'function'
         # @tag tag.args
-        @code '('
-        if tag.args?
-          @code tag.args.content
-        @code ')'
+        # @code '('
+        # if tag.args?
+          # @code tag.args.content
+        @tag tag.args
+        # @code ')'
         @code '{'
         @code 'var __out=[],write=__out.push.bind(__out),__tmp=0;'
         @tag tag.block
@@ -69,13 +74,13 @@ class Writer
         @code '}'
       else
         if tag.parts?
-          @parts tag.parts()
+          @parts tag.parts(), tag
 
-  parts: (parts) ->
+  parts: (parts, tag) ->
     for part in parts
       if part?
         if part.tag?
-          @tag part
+          @tag part, tag
         else
           @code part
 
@@ -97,7 +102,7 @@ class Writer
     if tag.content? and Array.isArray tag.content 
       for c in tag.content
         if c?.tag?
-          @tag c
+          @tag c, tag
         else if c?
           @code c
     @code close if close?
@@ -112,8 +117,6 @@ class Writer
       ctx.push k
       ctx.push '=this.'
       ctx.push k
-
-
     
     [ 'var __out=[],write=__out.push.bind(__out),__tmp=0'
       ctx.join('')
