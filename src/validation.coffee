@@ -18,10 +18,11 @@ failure = (offset,error) -> new Failure(offset,error)
 
 NoMatch = undefined
 
-module.exports = {
-  Success
-  success
-  Failure
-  failure
-  NoMatch
-}
+if module isnt undefined
+  module.exports = {
+    Success
+    success
+    Failure
+    failure
+    NoMatch
+  }

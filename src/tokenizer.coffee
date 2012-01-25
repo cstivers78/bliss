@@ -1,52 +1,51 @@
-{ Anchor
-  Content
-  Group
-  Block
-  ScriptBlock
-  If
-  Else
-  For
-  While
-  DoWhile
-  Func
-  Parameters
-  Value
-  Member
-  Access
-  Invoke
-} = require './tags'
+if module isnt undefined
+  { Anchor
+    Content
+    Group
+    Block
+    ScriptBlock
+    If
+    Else
+    For
+    While
+    DoWhile
+    Func
+    Parameters
+    Value
+    Member
+    Access
+    Invoke
+  } = require './tags'
+  { Success
+    success
+    Failure
+    failure
+    NoMatch
+  } = require './validation'
 
-{ Success
-  success
-  Failure
-  failure
-  NoMatch
-} = require './validation'
+class Tokenizer
 
+  WHITESPACE = /^[^\n\S]+/
+  TRAILING_SPACES = /\s+$/
 
-WHITESPACE = /^[^\n\S]+/
-TRAILING_SPACES = /\s+$/
+  ANCHOR = /^@/
+  PARAMETERS = /^!\(/
+  IF = /^if\s*\(/
+  ELSE = /^\s*else\s*/
+  FOR = /^for\s*\(/
+  WHILE = /^while\s*\(/
+  DO = /^do\s*\{/
+  DO_WHILE = /^\s*while\s*\(/
+  FUNC = /^function(?:\s+([$A-Za-z_\x7f-\uffff][$\w\x7f-\uffff]*))?\s*\(/
+  GROUP = /^\s*\(/
+  BLOCK = /^\s*\{/
+  IDENTIFIER = /^[$A-Za-z_\x7f-\uffff][$\w\x7f-\uffff]*/
+  MEMBER = /^\s*\./
+  ACCESS = /^\s*\[/
+  INVOKE = /^\s*\(/
+  COMMENT = /^\*/
 
-ANCHOR = /^@/
-PARAMETERS = /^!\(/
-IF = /^if\s*\(/
-ELSE = /^\s*else\s*/
-FOR = /^for\s*\(/
-WHILE = /^while\s*\(/
-DO = /^do\s*\{/
-DO_WHILE = /^\s*while\s*\(/
-FUNC = /^function(?:\s+([$A-Za-z_\x7f-\uffff][$\w\x7f-\uffff]*))?\s*\(/
-GROUP = /^\s*\(/
-BLOCK = /^\s*\{/
-IDENTIFIER = /^[$A-Za-z_\x7f-\uffff][$\w\x7f-\uffff]*/
-MEMBER = /^\s*\./
-ACCESS = /^\s*\[/
-INVOKE = /^\s*\(/
-COMMENT = /^\*/
-
-
-module.exports = class Tokenizer
-
+  
   tokenize: (source,options) ->
     source = "\n#{source}" if WHITESPACE.test source
     source = source.replace(/\r/g, '').replace(TRAILING_SPACES, '')
@@ -463,3 +462,7 @@ module.exports = class Tokenizer
     offset = start + end
     value = new Invoke results
     return success offset, value
+
+
+if module isnt undefined
+  module.exports = Tokenizer

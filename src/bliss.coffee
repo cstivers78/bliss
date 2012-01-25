@@ -1,11 +1,13 @@
-fs = require 'fs'
-path = require 'path'
-Writer = require './writer'
-Tokenizer = require './tokenizer'
+if module isnt undefined
+  fs = require 'fs'
+  path = require 'path'
+  Writer = require './writer'
+  Tokenizer = require './tokenizer'
 
-tokenizer = new Tokenizer()
 
-module.exports = class Bliss
+class Bliss
+
+  tokenizer = new Tokenizer()
 
   constructor: (@options) ->
     @cache = {}
@@ -40,11 +42,19 @@ module.exports = class Bliss
     tmplParams = writer.parameters
     tmplSource = writer.source(context)
 
-    func = Function tmplParams..., tmplSource
-    tmpl = func.bind(context)
-    tmpl.filename = options.filename
-    tmpl.toString = func.toString.bind(func)
-    tmpl.toSource = () -> source
+    console.log "~~~~~~~~~~"
+    console.log tmplSource
+    console.log "~~~~~~~~~~"
+
+    try
+      func = Function tmplParams..., tmplSource
+      tmpl = func.bind(context)
+      tmpl.filename = options.filename
+      tmpl.toString = func.toString.bind(func)
+      tmpl.toSource = () -> source
+    catch error
+      error.templateSource = tmplSource
+      throw error
 
     return tmpl
 
@@ -96,3 +106,6 @@ module.exports = class Bliss
   render: (filename,args...) ->
     template = @compileFile filename
     template args...
+
+if module isnt undefined
+  module.exports = Bliss

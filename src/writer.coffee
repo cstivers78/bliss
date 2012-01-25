@@ -1,4 +1,4 @@
-module.exports = class Writer
+class Writer
 
   constructor: () ->
     @buffer = []
@@ -35,6 +35,15 @@ module.exports = class Writer
               @tag c
             else if c?
               @text c
+        @code '}'
+      when 'Group'
+        @code '__tmp='
+        @code '('
+        if tag.content?
+          @code tag.content
+        @code ');'
+        @code 'if(__tmp !== undefined || __tmp !== null){'
+        @code 'Array.isArray(__tmp) ? write(__tmp.join("")) : write(__tmp);'
         @code '}'
       when 'Value'
         index = @values
@@ -108,3 +117,7 @@ module.exports = class Writer
       @buffer.join('')
       'return __out.join(\'\');'
     ].join('')
+
+
+if module isnt undefined
+  module.exports = Writer

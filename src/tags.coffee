@@ -83,22 +83,24 @@ class Invoke extends Tag
   constructor: (@content) ->
   parts: -> ['(', @content, ')']
 
-module.exports = {
-  Tag
-  Anchor
-  Content
-  Group
-  Block
-  ScriptBlock
-  If
-  Else
-  For
-  While
-  DoWhile
-  Func
-  Parameters
-  Value
-  Member
-  Access
-  Invoke
-}
+
+if module isnt undefined
+  module.exports = {
+    Tag
+    Anchor
+    Content
+    Group
+    Block
+    ScriptBlock
+    If
+    Else
+    For
+    While
+    DoWhile
+    Func
+    Parameters
+    Value
+    Member
+    Access
+    Invoke
+  }
