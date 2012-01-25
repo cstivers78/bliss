@@ -42,10 +42,6 @@ class Bliss
     tmplParams = writer.parameters
     tmplSource = writer.source(context)
 
-    console.log "~~~~~~~~~~"
-    console.log tmplSource
-    console.log "~~~~~~~~~~"
-
     try
       func = Function tmplParams..., tmplSource
       tmpl = func.bind(context)
