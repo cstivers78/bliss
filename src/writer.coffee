@@ -61,6 +61,9 @@ class Writer
         @parameters = tag.parameters
       when 'Func' 
         @code 'function'
+        if tag.name?
+          @code ' '
+          @code tag.identifier
         # @tag tag.args
         # @code '('
         # if tag.args?

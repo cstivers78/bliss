@@ -4,7 +4,6 @@ if module isnt undefined
   Writer = require './writer'
   Tokenizer = require './tokenizer'
 
-
 class Bliss
 
   tokenizer = new Tokenizer()
@@ -13,7 +12,8 @@ class Bliss
     @cache = {}
     @options = defaults @options, {
       ext: '.js.html'
-      cacheEnabled: true
+      cacheEnabled: true,
+      context: {}
     }
 
   defaults = (objects...) ->
@@ -24,17 +24,25 @@ class Bliss
           result[k] ?= v
     result
   
+  clone = (object) ->
+    obj = {}
+    for k,v of object
+      obj[k] = v
+    obj
+
   compile: (source,options) ->
     self = @
-    options = defaults options, @options, {
-      context: {}
-    }
+    options = defaults options, @options
     context = options.context
 
     context.render = (filename,args...) ->
       dirname = path.dirname options.filename
       filepath = path.resolve dirname, filename
-      self.render filepath, args...
+      templateOptions = clone options
+      templateOptions.filename = filepath
+      # self.render filepath, args...
+      template = @compileFile filename, options
+      template args...
 
     writer = new Writer()
     writer.write tokenizer.tokenize source
@@ -45,6 +53,7 @@ class Bliss
     try
       func = Function tmplParams..., tmplSource
       tmpl = func.bind(context)
+      tmpl.context = context
       tmpl.filename = options.filename
       tmpl.toString = func.toString.bind(func)
       tmpl.toSource = () -> source
