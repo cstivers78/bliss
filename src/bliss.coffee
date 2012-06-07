@@ -40,7 +40,7 @@ class Bliss
       filepath = path.resolve dirname, filename
       templateOptions = clone options
       templateOptions.filename = filepath
-      template = self.compileFile filename, options
+      template = self.compileFile filepath, options
       template args...
 
     writer = new Writer()
