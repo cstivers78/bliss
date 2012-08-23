@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/cstivers78/bliss.png)](http://travis-ci.org/cstivers78/bliss)
 # bliss
 
 A template engine for Node.js, inspired by Microsoft Razor and Play! Framework template engines.
