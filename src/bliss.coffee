@@ -33,6 +33,7 @@ class Bliss
   compile: (source,options) ->
     self = @
     options = defaults options, @options
+    options.context = defaults options.context @options.context
     context = options.context
 
     context.render = (filename,args...) ->
@@ -69,6 +70,7 @@ class Bliss
       filename: filename,
       ext: if (p=filename.indexOf('.')) >= 0 then filename[p..] else ''
     }
+    options.context = defaults options.context @options.context
 
     filepath = filename
     stat = undefined
