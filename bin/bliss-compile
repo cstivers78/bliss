@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 const _ = require('underscore');
 const uglify = require('uglify-js');
 const minifier = require('html-minifier');
