@@ -19,7 +19,7 @@
     "build": "npm run-script clean && npm run-script compile && npm run-script browser"
   },
   "engines": {
-    "node": ">= 0.5.0 - 0.10.x"
+    "node": ">= 0.5.0"
   },
   "dependencies": {
     "html-minifier": ">=0.4.5",
