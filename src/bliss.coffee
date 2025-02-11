@@ -33,7 +33,7 @@ class Bliss
   compile: (source,options) ->
     self = @
     options = defaults options, @options
-    options.context = defaults options.context @options.context
+    options.context = defaults {}, (options.context or {}), (@options.context or {})
     context = options.context
 
     context.render = (filename,args...) ->
