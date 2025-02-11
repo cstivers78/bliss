@@ -5,7 +5,7 @@
   id = node.id
   source = node.innerHTML
   if source
-    template = bliss.compile source, {context:window}
+    template = bliss.compile source, {context: {window: window}}
     if id and window
       window[id] = template
       node.parentNode.removeChild node
