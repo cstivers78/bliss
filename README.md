@@ -10,4 +10,3 @@ I became hooked on using Play! framework's Scala templates, which was inspired b
 See [wiki](https://github.com/cstivers78/bliss/wiki) for details on use and syntax.
 
 See [issues](https://github.com/cstivers78/bliss/issues) for details on bugs and features.
-
