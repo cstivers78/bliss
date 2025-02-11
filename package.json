@@ -19,15 +19,15 @@
     "build": "npm run-script clean && npm run-script compile && npm run-script browser"
   },
   "engines": {
-    "node": ">= 0.5.0"
+    "node": "^20.0.0"
   },
   "dependencies": {
-    "html-minifier": ">=0.4.5",
-    "uglify-js": ">=1.2.3",
-    "underscore": "1.5.2"
+    "html-minifier": "^4.0.0",
+    "uglify-js": "^3.17.4",
+    "underscore": "^1.13.6"
   },
   "devDependencies": {
-    "coffee-script": ">=1.2.0"
+    "coffee-script": "^1.12.7"
   },
   "license": "MIT"
 }
