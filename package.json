@@ -24,7 +24,7 @@
   "dependencies": {
     "html-minifier": ">=0.4.5",
     "uglify-js": ">=1.2.3",
-    "underscore": "1.5.2"
+    "underscore": "1.13.8"
   },
   "devDependencies": {
     "coffee-script": ">=1.2.0"
